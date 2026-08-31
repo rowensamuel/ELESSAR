@@ -1,0 +1,233 @@
+@import url('https://api.fontshare.com/v2/css?f[]=zodiak@400,500,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root, html[data-theme="midnight"], html.theme-midnight {
+    --font-display: 'Zodiak', Georgia, Cambria, 'Times New Roman', Times, serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Zodiak', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'Plus Jakarta Sans', sans-serif;
+
+    /* Theme 1: Midnight Aviation */
+    --bg: #080B10;
+    --surface: #11171E;
+    --surface-elevated: #171F29;
+    --surface-subtle: #0D131A;
+    --text-primary: #F3F1EA;
+    --text-secondary: #9AA5B1;
+    --text-muted: #64748B;
+    --accent: #C6A15B;
+    --accent-hover: #D4B26F;
+    --accent-subtle: rgba(198, 161, 91, 0.12);
+    --accent-border: rgba(198, 161, 91, 0.32);
+    --positive: #4F9B72;
+    --positive-subtle: rgba(79, 155, 114, 0.14);
+    --negative: #C75B5B;
+    --negative-subtle: rgba(199, 91, 91, 0.14);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-subtle: rgba(255, 255, 255, 0.04);
+    --border-strong: rgba(255, 255, 255, 0.14);
+    --card-bg: rgba(17, 23, 30, 0.82);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --nav-bg: rgba(14, 19, 31, 0.88);
+    --nav-border: rgba(255, 255, 255, 0.08);
+    --nav-active-pill: #161F30;
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --radial-vignette-center: rgba(8, 11, 16, 0);
+    --radial-vignette-outer: #080B10;
+    --table-header-bg: #0D131A;
+    --table-row-hover: rgba(255, 255, 255, 0.03);
+    --badge-bg: rgba(17, 23, 30, 0.9);
+    --input-bg: #0A0E15;
+  }
+
+  html[data-theme="arctic"], html.theme-arctic {
+    /* Theme 2: Arctic Aviation (Clean Light Theme - Precision Geospatial Intelligence) */
+    --bg: #F3F6F8;
+    --surface: #FFFFFF;
+    --surface-elevated: #FFFFFF;
+    --surface-subtle: #EEF3F6;
+    --surface-muted: #E8EEF2;
+    --text-primary: #172536;
+    --text-secondary: #526577;
+    --text-muted: #71808D;
+    --accent: #285474;
+    --accent-hover: #1F435E;
+    --accent-subtle: #E7EEF3;
+    --accent-border: #D7E0E6;
+    --positive: #3F765E;
+    --positive-subtle: rgba(63, 118, 94, 0.12);
+    --negative: #B45C5C;
+    --negative-subtle: rgba(180, 92, 92, 0.12);
+    --warning: #A77A36;
+    --border: #D7E0E6;
+    --border-subtle: rgba(215, 224, 230, 0.6);
+    --border-strong: #BDC8D3;
+    --card-bg: #FFFFFF;
+    --card-border: #D7E0E6;
+    --card-shadow: 0 2px 14px rgba(23, 37, 54, 0.04), 0 1px 3px rgba(23, 37, 54, 0.02);
+    --nav-bg: rgba(255, 255, 255, 0.90);
+    --nav-border: #D8E0E6;
+    --nav-active-pill: #E7EEF3;
+    --grid-color: rgba(40, 84, 116, 0.035);
+    --radial-vignette-center: rgba(243, 246, 248, 0);
+    --radial-vignette-outer: #F3F6F8;
+    --table-header-bg: #EEF3F6;
+    --table-row-hover: rgba(40, 84, 116, 0.025);
+    --badge-bg: #FFFFFF;
+    --input-bg: #FFFFFF;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+    transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Primary Display Font: Zodiak Bold for major editorial headlines & titles */
+  .font-display, .font-editorial, .font-serif-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  /* Secondary UI / Body Font: Plus Jakarta Sans for navigation, body, cards, metrics */
+  .font-sans, .font-body, .font-ui, .font-mono {
+    font-family: var(--font-body);
+    letter-spacing: -0.01em;
+  }
+
+  .tabular-nums, .font-numeric {
+    font-family: var(--font-body);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Theme Adaptive Semantic Utility Classes */
+.bg-theme-bg { background-color: var(--bg); }
+.bg-theme-surface { background-color: var(--surface); }
+.bg-theme-elevated { background-color: var(--surface-elevated); }
+.bg-theme-subtle { background-color: var(--surface-subtle); }
+.bg-theme-card { background-color: var(--card-bg); }
+.bg-theme-input { background-color: var(--input-bg); }
+
+.text-theme-primary { color: var(--text-primary); }
+.text-theme-secondary { color: var(--text-secondary); }
+.text-theme-muted { color: var(--text-muted); }
+.text-theme-accent { color: var(--accent); }
+.text-theme-positive { color: var(--positive); }
+.text-theme-negative { color: var(--negative); }
+
+.border-theme { border-color: var(--border); }
+.border-theme-subtle { border-color: var(--border-subtle); }
+.border-theme-strong { border-color: var(--border-strong); }
+.border-theme-accent { border-color: var(--accent-border); }
+
+.bg-theme-accent { background-color: var(--accent); }
+.bg-theme-accent-subtle { background-color: var(--accent-subtle); }
+.bg-theme-positive-subtle { background-color: var(--positive-subtle); }
+.bg-theme-negative-subtle { background-color: var(--negative-subtle); }
+
+.shadow-theme-card { box-shadow: var(--card-shadow); }
+
+/* Universal Glassmorphic & Standard Card Styling Override for Themes */
+.theme-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Atmospheric geospatial background for Arctic & Midnight */
+.bg-atmospheric-arctic {
+  background: 
+    radial-gradient(ellipse 90% 60% at 75% 35%, rgba(232, 238, 242, 0.85) 0%, rgba(243, 246, 248, 0.4) 60%, transparent 100%),
+    radial-gradient(circle at 20% 25%, rgba(238, 243, 246, 0.9) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(231, 238, 243, 0.6) 0%, transparent 60%),
+    #F3F6F8;
+}
+
+.bg-atmospheric-midnight {
+  background: 
+    radial-gradient(ellipse 80% 50% at 70% 30%, rgba(17, 23, 30, 0.7) 0%, transparent 70%),
+    radial-gradient(circle at 20% 20%, rgba(13, 19, 26, 0.8) 0%, transparent 60%),
+    #080B10;
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: 200%;
+  animation: marquee-left 36s linear infinite;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: 200%;
+  animation: marquee-right 42s linear infinite;
+}
+
+.animate-marquee-left:hover, .animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 8s linear infinite;
+}
+
+/* Precision technical grid and crosshairs */
+.bg-grid-tech {
+  background-image: 
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.bg-radial-vignette {
+  background: radial-gradient(circle at 50% 45%, var(--radial-vignette-center) 30%, var(--radial-vignette-outer) 85%);
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

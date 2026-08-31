@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="wingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="50%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#0369A1" />
+    </linearGradient>
+    <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0C4A6E" />
+      <stop offset="50%" stop-color="#075985" />
+      <stop offset="100%" stop-color="#0369A1" />
+    </linearGradient>
+    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94A3B8" />
+      <stop offset="100%" stop-color="#64748B" />
+    </linearGradient>
+    <linearGradient id="planeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#0369A1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Group: Emblem -->
+  <g transform="translate(0, -10)">
+    <!-- Circular Ring Arch -->
+    <path
+      d="M 285 92 C 180 92 145 165 145 220 C 145 295 210 338 275 338 C 345 338 385 285 385 240 C 385 220 378 202 368 185 C 367 195 365 210 360 225 C 345 270 305 310 260 310 C 190 310 162 255 162 205 C 162 155 200 115 285 115 C 315 115 342 125 360 140 C 352 120 325 92 285 92 Z"
+      fill="url(#ringGradient)"
+    />
+
+    <!-- Stylized Aerodynamic Wings on Left -->
+    <!-- Top Feather -->
+    <path
+      d="M 75 130 C 120 140 180 185 195 230 C 170 215 130 190 85 180 C 72 177 65 155 75 130 Z"
+      fill="url(#wingGradient)"
+    />
+    <!-- Middle Feather -->
+    <path
+      d="M 95 168 C 135 180 185 220 195 255 C 170 240 135 220 98 210 C 88 207 85 190 95 168 Z"
+      fill="url(#wingGradient)"
+    />
+    <!-- Bottom Feather -->
+    <path
+      d="M 118 205 C 150 218 188 250 194 275 C 175 262 145 248 118 240 C 108 238 108 222 118 205 Z"
+      fill="url(#wingGradient)"
+    />
+
+    <!-- Ascending 4-Bar Graph -->
+    <!-- Bar 1 -->
+    <rect x="202" y="222" width="22" height="60" rx="3" fill="url(#chartGradient)" />
+    <!-- Bar 2 -->
+    <rect x="232" y="196" width="22" height="86" rx="3" fill="url(#chartGradient)" />
+    <!-- Bar 3 -->
+    <rect x="262" y="166" width="22" height="116" rx="3" fill="url(#chartGradient)" />
+    <!-- Bar 4 -->
+    <rect x="292" y="140" width="22" height="142" rx="3" fill="url(#chartGradient)" />
+
+    <!-- Flight Arc Sweeping Upward Across Bars -->
+    <path
+      d="M 172 268 C 220 310 270 295 320 230 C 355 185 390 125 418 80 C 400 115 350 185 305 230 C 265 272 215 285 172 268 Z"
+      fill="#0369A1"
+    />
+
+    <!-- Soaring Aircraft at Top-Right (Angled 45 deg) -->
+    <g transform="translate(385, 125) rotate(42) scale(0.95)">
+      <!-- Fuselage -->
+      <path
+        d="M 0 -38 C 4 -38 7 -25 7 15 L 7 28 L 2 34 L -2 34 L -7 28 L -7 15 C -7 -25 -4 -38 0 -38 Z"
+        fill="url(#planeGradient)"
+      />
+      <!-- Main Wings -->
+      <path
+        d="M 0 -8 L 36 12 L 36 18 L 0 5 L -36 18 L -36 12 Z"
+        fill="url(#planeGradient)"
+      />
+      <!-- Tail Wings -->
+      <path
+        d="M 0 22 L 15 31 L 15 34 L 0 30 L -15 34 L -15 31 Z"
+        fill="url(#planeGradient)"
+      />
+    </g>
+  </g>
+
+  <!-- Typography / Brand Name -->
+  <g transform="translate(250, 395)" text-anchor="middle">
+    <!-- "AIRFARE" in stylized display font -->
+    <text
+      x="0"
+      y="0"
+      font-family="system-ui, -apple-system, sans-serif"
+      font-size="44"
+      font-weight="900"
+      letter-spacing="9"
+      fill="#0C4A6E"
+    >
+      AIRFARE
+    </text>
+
+    <!-- Subtitle: "— INDEX —" -->
+    <g transform="translate(0, 34)">
+      <!-- Left horizontal line -->
+      <line x1="-170" y1="-8" x2="-80" y2="-8" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" />
+      <!-- Text: INDEX -->
+      <text
+        x="0"
+        y="0"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="25"
+        font-weight="700"
+        letter-spacing="12"
+        fill="#64748B"
+      >
+        INDEX
+      </text>
+      <!-- Right horizontal line -->
+      <line x1="80" y1="-8" x2="170" y2="-8" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>
