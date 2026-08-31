@@ -29,7 +29,7 @@ import {
   mapRouteDetailToFlightRoute,
   searchFares,
 } from '../services/airfareService';
-import { RouteDetail, ProviderComparison } from '../types/api';
+import { RouteDetail, ProviderComparison, FareObservation } from '../types/api';
 import { FlightRoute } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { Preloader } from '../components/common/Preloader';
@@ -42,8 +42,9 @@ export const RouteDetailPage: React.FC = () => {
   const [route, setRoute] = useState<FlightRoute | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
-  const [historyRange, setHistoryRange] = useState<'7D' | '30D' | '90D' | '1Y'>('30D');
+  const [historyRange, setHistoryRange] = useState<'24H' | '7D' | '30D'>('30D');
   const [historyPoints, setHistoryPoints] = useState<Array<{ timestamp: string; fare: number }>>([]);
+  const [searchObservations, setSearchObservations] = useState<FareObservation[]>([]);
   const [scraping, setScraping] = useState<boolean>(false);
   const [scrapeSuccessMessage, setScrapeSuccessMessage] = useState<string | null>(null);
 
@@ -109,6 +110,9 @@ export const RouteDetailPage: React.FC = () => {
       if (!routeDetail?.route) return;
       try {
         const searchRes = await searchFares(routeDetail.route);
+        if (searchRes?.observations) {
+          setSearchObservations(searchRes.observations);
+        }
         if (searchRes?.priceComparison && Object.keys(searchRes.priceComparison.providers).length > 0) {
           setProviderData(searchRes.priceComparison);
         } else {
@@ -194,6 +198,49 @@ export const RouteDetailPage: React.FC = () => {
     const periodKey = historyRange.toLowerCase();
     const now = new Date();
 
+    if (historyRange === '24H') {
+      const limitTime = now.getTime() - 24 * 3600 * 1000;
+      const recentObs = searchObservations.filter((o) => {
+        return o.scrapedAt && new Date(o.scrapedAt).getTime() >= limitTime;
+      });
+
+      if (recentObs.length > 0) {
+        const groups: Record<string, number[]> = {};
+        recentObs.forEach((o) => {
+          if (!o.scrapedAt) return;
+          const ts = o.scrapedAt;
+          const fareVal = o.totalFare || (o as any).fare || 0;
+          if (fareVal > 0) {
+            if (!groups[ts]) groups[ts] = [];
+            groups[ts].push(fareVal);
+          }
+        });
+
+        const getMedian = (arr: number[]) => {
+          if (arr.length === 0) return 0;
+          const sorted = [...arr].sort((a, b) => a - b);
+          const mid = Math.floor(sorted.length / 2);
+          return sorted.length % 2 !== 0 ? sorted[mid] : Math.round((sorted[mid - 1] + sorted[mid]) / 2);
+        };
+
+        const points = Object.entries(groups).map(([timestamp, fares]) => {
+          const median = getMedian(fares);
+          const d = new Date(timestamp);
+          return {
+            timestamp,
+            date: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            avgFare: median,
+            minFare: Math.min(...fares),
+            maxFare: Math.max(...fares),
+          };
+        });
+
+        points.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+        return points;
+      }
+      return [];
+    }
+
     const formatLabel = (d: Date, r: string) => {
       if (r === '7d') {
         return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
@@ -212,7 +259,7 @@ export const RouteDetailPage: React.FC = () => {
       const first = new Date(sorted[0].timestamp).getTime();
       const last = new Date(sorted[sorted.length - 1].timestamp).getTime();
       const spanDays = (last - first) / (24 * 3600 * 1000);
-      const expectedDays = historyRange === '7D' ? 4 : historyRange === '30D' ? 15 : historyRange === '90D' ? 45 : 180;
+      const expectedDays = historyRange === '7D' ? 4 : historyRange === '30D' ? 15 : 180;
 
       if (spanDays >= expectedDays) {
         return sorted.map((p) => {
@@ -231,8 +278,6 @@ export const RouteDetailPage: React.FC = () => {
     const config = {
       '7d': { count: 7, intervalDays: 1, variance: currentFare * 0.05 },
       '30d': { count: 30, intervalDays: 1, variance: currentFare * 0.08 },
-      '90d': { count: 13, intervalDays: 7, variance: currentFare * 0.12 },
-      '1y': { count: 12, intervalDays: 30, variance: currentFare * 0.15 },
     }[periodKey] || { count: 30, intervalDays: 1, variance: currentFare * 0.08 };
 
     const points = [];
@@ -242,8 +287,7 @@ export const RouteDetailPage: React.FC = () => {
         Math.sin((config.count - i) * 0.5) * (config.variance * 0.6) +
         Math.cos((config.count - i) * 0.25) * (config.variance * 0.4);
       const trendProgress = (config.count - 1 - i) / (config.count - 1 || 1);
-      const baselineTarget =
-        historyRange === '1Y' ? baseFare : currentFare - (routeDetail.change7d || 2) * (currentFare * 0.01);
+      const baselineTarget = currentFare - (routeDetail.change7d || 2) * (currentFare * 0.01);
       const base = baselineTarget + (currentFare - baselineTarget) * trendProgress;
       const fare = Math.round(base + noise);
 
@@ -260,7 +304,7 @@ export const RouteDetailPage: React.FC = () => {
     }
 
     return points;
-  }, [historyPoints, routeDetail, historyRange]);
+  }, [historyPoints, routeDetail, historyRange, searchObservations]);
 
   if (loading) {
     return (
@@ -410,7 +454,7 @@ export const RouteDetailPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-1 bg-[var(--surface-elevated)] p-1 rounded-xl border border-[var(--border)]">
-            {(['7D', '30D', '90D', '1Y'] as const).map((r) => (
+            {(['24H', '7D', '30D'] as const).map((r) => (
               <button
                 key={r}
                 onClick={() => setHistoryRange(r)}

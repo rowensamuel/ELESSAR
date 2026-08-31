@@ -240,9 +240,9 @@ export const DashboardPage: React.FC = () => {
             </h2>
           </div>
 
-          {/* Range Selector: 24H, 7D, 30D, 3M, 1Y */}
+          {/* Range Selector: 24H, 7D, 30D */}
           <div className="flex items-center p-0.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border)] font-sans">
-            {(['24H', '7D', '30D', '3M', '1Y'] as const).map((r) => (
+            {(['24H', '7D', '30D'] as const).map((r) => (
               <button
                 key={r}
                 id={`dashboard-range-${r.toLowerCase()}`}
